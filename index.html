@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Michele Zanatta's Portfolio</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <h1 class="brand-title">Michele Zanatta</h1>
+          <p class="brand-subtitle">Data Scientist • Portfolio</p>
+        </div>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#skills">Skills</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="content" class="container">
+      <section class="hero" aria-label="Intro">
+        <div class="hero-card">
+          <h2 class="hero-title">Data Scientist & ML Engineer</h2>
+          <p class="hero-text">
+            Building scalable data systems and intelligent applications — from
+            data to deployment. Crafting production-ready ML, RAG, and
+            cloud-based solutions while expanding into frontend development.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="#projects">View projects</a>
+            <a class="button button-secondary" href="#contact">Get in touch</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <header class="section-header">
+          <h2>About</h2>
+          <p>A short bio and what you’re focused on.</p>
+        </header>
+        <div class="panel">
+          <p>
+            Replace this text with a short intro: what you do, what you’re good
+            at, and what kind of roles or collaborations you’re looking for.
+          </p>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <header class="section-header">
+          <h2>Projects</h2>
+          <p>A selection of things you’ve built.</p>
+        </header>
+
+        <div class="grid cards">
+          <article class="card">
+            <h3>Project One</h3>
+            <p class="muted">One sentence about the outcome and tech.</p>
+            <ul class="meta">
+              <li>Tech: JavaScript, HTML, CSS</li>
+              <li>Focus: Performance, DX</li>
+            </ul>
+            <div class="card-actions">
+              <a href="#">Live</a>
+              <a href="#">Source</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Project Two</h3>
+            <p class="muted">One sentence about what makes it interesting.</p>
+            <ul class="meta">
+              <li>Tech: …</li>
+              <li>Focus: …</li>
+            </ul>
+            <div class="card-actions">
+              <a href="#">Live</a>
+              <a href="#">Source</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Project Three</h3>
+            <p class="muted">One sentence summary.</p>
+            <ul class="meta">
+              <li>Tech: …</li>
+              <li>Focus: …</li>
+            </ul>
+            <div class="card-actions">
+              <a href="#">Live</a>
+              <a href="#">Source</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="experience" class="section">
+        <header class="section-header">
+          <h2>Experience</h2>
+          <p>Roles, impact, and what you shipped.</p>
+        </header>
+
+        <div class="stack">
+          <article class="panel">
+            <div class="row">
+              <h3 class="row-title">Role Title — Company</h3>
+              <p class="row-meta muted">2024 — Present</p>
+            </div>
+            <ul class="bullets">
+              <li>Impact-oriented bullet (metrics if possible).</li>
+              <li>Another key responsibility or achievement.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="skills" class="section">
+        <header class="section-header">
+          <h2>Skills</h2>
+          <p>Tools and technologies you use.</p>
+        </header>
+
+        <div class="panel">
+          <div class="tags" aria-label="Skills list">
+            <span class="tag">JavaScript</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">React</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">Python</span>
+            <span class="tag">SQL</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <header class="section-header">
+          <h2>Contact</h2>
+          <p>Links and ways to reach you.</p>
+        </header>
+
+        <div class="panel">
+          <ul class="contact-list">
+            <li>
+              <strong>Email:</strong>
+              <a href="mailto:your@email.com">your@email.com</a>
+            </li>
+            <li>
+              <strong>GitHub:</strong>
+              <a href="https://github.com/your-handle"
+                >github.com/your-handle</a
+              >
+            </li>
+            <li>
+              <strong>LinkedIn:</strong>
+              <a href="https://www.linkedin.com/in/your-handle/"
+                >linkedin.com/in/your-handle</a
+              >
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p class="muted">© <span id="year">2026</span> Michele Zanatta</p>
+      </div>
+    </footer>
+
+    <script>
+      // Footer year
+      document.getElementById("year").textContent = String(
+        new Date().getFullYear(),
+      );
+
+      // Keep CSS --header-height in sync with the real sticky header height
+      const header = document.querySelector(".site-header");
+
+      function setHeaderHeightVar() {
+        if (!header) return;
+        const heightPx = header.offsetHeight;
+        document.documentElement.style.setProperty(
+          "--header-height",
+          `${heightPx}px`,
+        );
+      }
+
+      // 1) Set once immediately
+      setHeaderHeightVar();
+
+      // 2) Update whenever header size changes (wraps, fonts load, etc.)
+      if ("ResizeObserver" in window && header) {
+        new ResizeObserver(setHeaderHeightVar).observe(header);
+      } else {
+        // Fallback (older browsers): update on window resize
+        window.addEventListener("resize", setHeaderHeightVar);
+      }
+
+      // 3) Extra safety: after fonts finish loading (can change header height)
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(setHeaderHeightVar);
+      }
+    </script>
+  </body>
+</html>
