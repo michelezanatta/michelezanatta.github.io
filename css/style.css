@@ -269,7 +269,7 @@ ul {
 .stack {
   display: grid;
   gap: var(--space-3);
-  padding-bottom: var(--space-3);
+  padding-bottom: var(--space-5);
 }
 
 .row {
