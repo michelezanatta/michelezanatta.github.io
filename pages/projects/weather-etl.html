@@ -19,12 +19,11 @@
   </head>
 
   <body>
-    <main class="container">
-      <header class="card">
+    <header class="project-hero">
+      <div class="panel project-hero-inner project-hero-full">
         <p class="muted">
           <a href="../../index.html">← Back to portfolio</a>
         </p>
-
         <h1>Weather ETL Pipeline</h1>
         <p class="muted">
           End-to-end data pipeline that extracts weather data from a public API,
@@ -33,60 +32,74 @@
         </p>
 
         <ul class="meta">
-          <li><strong>Tech</strong>: Python · DuckDB · Prefect · dbt</li>
           <li>
-            <strong>Focus</strong>: Data Engineering · ETL/ELT · Orchestration ·
-            SQL Transformations
+            <strong>Tech</strong>:
+            <span class="tag">Python</span>
+            <span class="tag">DuckDB</span>
+            <span class="tag">Prefect</span>
+            <span class="tag">dbt</span>
+          </li>
+
+          <li style="padding-top: 10px">
+            <strong>Focus</strong>:
+            <span class="tag">Data Engineering</span>
+            <span class="tag">ETL/ELT</span>
+            <span class="tag">Orchestration</span>
+            <span class="tag">Data Engineering</span>
           </li>
         </ul>
 
         <div class="card-actions">
           <a
+            class="button"
             href="https://github.com/michelezanatta/etl-pipeline-portfolio"
             target="_blank"
             rel="noopener noreferrer"
             >Source code</a
           >
           <a
+            class="button"
             href="https://github.com/michelezanatta/etl-pipeline-portfolio#weather-etl-pipeline-duckdb--prefect--dbt"
             target="_blank"
             rel="noopener noreferrer"
             >README</a
           >
         </div>
-      </header>
+      </div>
+    </header>
 
-      <section class="card">
-        <h2>What it does</h2>
-        <ul>
-          <li><strong>Extract</strong> weather data from Open-Meteo API</li>
-          <li>
-            <strong>Transform</strong> raw data into clean, deduplicated
-            datasets (Parquet)
-          </li>
-          <li>
-            <strong>Load</strong> into DuckDB using idempotent schema creation +
-            upserts
-          </li>
-          <li>
-            <strong>Model</strong> with dbt (example: daily summary from hourly
-            past table)
-          </li>
-          <li>
-            <strong>Schedule</strong> daily runs locally with Prefect (server +
-            worker + deployment)
-          </li>
-        </ul>
-      </section>
+    <main id="content" class="container">
+      <div class="stack">
+        <section class="panel">
+          <h2>What it does</h2>
+          <ul>
+            <li><strong>Extract</strong> weather data from Open-Meteo API</li>
+            <li>
+              <strong>Transform</strong> raw data into clean, deduplicated
+              datasets (Parquet)
+            </li>
+            <li>
+              <strong>Load</strong> into DuckDB using idempotent schema creation
+              + upserts
+            </li>
+            <li>
+              <strong>Model</strong> with dbt (example: daily summary from
+              hourly past table)
+            </li>
+            <li>
+              <strong>Schedule</strong> daily runs locally with Prefect (server
+              + worker + deployment)
+            </li>
+          </ul>
+        </section>
+        <section class="panel">
+          <h2>Architecture</h2>
+          <p class="muted">
+            High-level flow of the pipeline, from ingestion to analytics models.
+          </p>
 
-      <section class="card">
-        <h2>Architecture</h2>
-        <p class="muted">
-          High-level flow of the pipeline, from ingestion to analytics models.
-        </p>
-
-        <!-- Mermaid diagram (renders client-side) -->
-        <pre class="mermaid">
+          <!-- Mermaid diagram (renders client-side) -->
+          <pre class="mermaid">
           flowchart LR
             A[Open-Meteo API] -->|extract| B["raw parquet\nrsc/data/raw_data"]
             B -->|transform| C["processed parquet\nrsc/data/proc_data"]
@@ -100,17 +113,17 @@
             F --> B
             F --> C
             F --> D
-        </pre>
-      </section>
+        </pre
+          >
+        </section>
+        <section class="panel">
+          <h2>How to run (local)</h2>
+          <p class="muted" style="margin-top: 0.25rem">
+            These commands are meant to be executed from the ETL repository.
+          </p>
 
-      <section class="card">
-        <h2>How to run (local)</h2>
-        <p class="muted">
-          These commands are meant to be executed from the ETL repository.
-        </p>
-
-        <h3>Pipeline scripts</h3>
-        <pre><code>poetry install
+          <h3 style="margin-top: var(--space-2)">Pipeline scripts</h3>
+          <pre><code>poetry install
 poetry env activate
 
 # Extract (writes raw parquet)
@@ -128,8 +141,8 @@ python -m src.load --db-path data/weather.duckdb --input-path rsc/data/proc_data
 # Run the full pipeline
 python -m src.pipeline --config config/pipeline.toml</code></pre>
 
-        <h3>Prefect scheduling (local)</h3>
-        <pre><code># Terminal A
+          <h3>Prefect scheduling (local)</h3>
+          <pre><code># Terminal A
 prefect server start
 
 # Terminal B
@@ -139,39 +152,38 @@ prefect worker start --pool local-pool
 
 # Create a scheduled deployment (interactive)
 prefect deploy</code></pre>
-      </section>
+        </section>
+        <section class="panel">
+          <h2>dbt transformations</h2>
+          <p class="muted" style="margin-top: var(--space-2)">
+            dbt reads from the DuckDB tables produced by the pipeline and builds
+            analytics models (example: <code>daily_summary</code>).
+          </p>
 
-      <section class="card">
-        <h2>dbt transformations</h2>
-        <p class="muted">
-          dbt reads from the DuckDB tables produced by the pipeline and builds
-          analytics models (example: <code>daily_summary</code>).
-        </p>
-
-        <pre><code># Required because the dbt profile uses an env var
+          <pre><code># Required because the dbt profile uses an env var
 export DUCKDB_PATH="$(pwd)/data/weather.duckdb"
 
 dbt --project-dir dbt/weather_dbt debug
 dbt --project-dir dbt/weather_dbt run --select daily_summary</code></pre>
 
-        <p class="muted">Quick check via Python:</p>
-        <pre><code>python - &lt;&lt;'PY'
+          <p class="muted">Quick check via Python:</p>
+          <pre><code>python - &lt;&lt;'PY'
 import duckdb
 con = duckdb.connect("data/weather.duckdb", read_only=True)
 print(con.execute("select * from daily_summary limit 10").fetchdf())
 con.close()
 PY</code></pre>
-      </section>
+        </section>
 
-      <section class="card">
-        <h2>Docker</h2>
-        <p class="muted">
-          Run it as a one-shot container, or run Prefect server+worker via
-          docker-compose.
-        </p>
+        <section class="panel">
+          <h2>Docker</h2>
+          <p class="muted" style="margin-top: var(--space-2)">
+            Run it as a one-shot container, or run Prefect server+worker via
+            docker-compose.
+          </p>
 
-        <h3>One-shot pipeline run</h3>
-        <pre><code>docker build -t weather-etl .
+          <h3 style="margin-top: var(--space-2)">One-shot pipeline run</h3>
+          <pre><code>docker build -t weather-etl .
 docker run --rm \
   -v "$(pwd)/data:/app/data" \
   -v "$(pwd)/rsc:/app/rsc" \
@@ -179,8 +191,8 @@ docker run --rm \
   -e DUCKDB_PATH=/app/data/weather.duckdb \
   weather-etl</code></pre>
 
-        <h3>Prefect in docker-compose</h3>
-        <pre><code>docker compose up --build
+          <h3>Prefect in docker-compose</h3>
+          <pre><code>docker compose up --build
 
 # one-time: create the pool
 docker compose run --rm runner prefect work-pool create local-pool --type process
@@ -190,64 +202,59 @@ docker compose run --rm runner
 
 # deploy (interactive)
 docker compose run --rm runner prefect deploy</code></pre>
-      </section>
+        </section>
+        <!--<section class="panel">
+          <h2>Sample outputs</h2>
 
-      <section class="card">
-        <h2>Sample outputs</h2>
-        <p class="muted">
-          Add screenshots here to showcase execution and results.
-        </p>
+          <ul>
+            <li>Prefect UI: successful flow run (graph + logs)</li>
+            <li>DuckDB: tables + row counts</li>
+            <li>
+              dbt: model build output and <code>daily_summary</code> preview
+            </li>
+          </ul>
 
-        <ul>
-          <li>Prefect UI: successful flow run (graph + logs)</li>
-          <li>DuckDB: tables + row counts</li>
-          <li>
-            dbt: model build output and <code>daily_summary</code> preview
-          </li>
-        </ul>
+          <div class="gallery" style="margin-top: var(--space-2)">
+            <figure>
+              <img
+                src="../../assets/weather-etl/prefect-run.png"
+                alt="Prefect flow run screenshot"
+                loading="lazy"
+              />
+              <figcaption class="muted">Prefect: flow run</figcaption>
+            </figure>
 
-        <!-- TODO: replace with your real images (store them in your github.io repo) -->
-        <div class="gallery">
-          <figure>
-            <img
-              src="../../assets/weather-etl/prefect-run.png"
-              alt="Prefect flow run screenshot"
-              loading="lazy"
-            />
-            <figcaption class="muted">Prefect: flow run</figcaption>
-          </figure>
+            <figure>
+              <img
+                src="../../assets/weather-etl/duckdb-counts.png"
+                alt="DuckDB counts screenshot"
+                loading="lazy"
+              />
+              <figcaption class="muted">DuckDB: table counts</figcaption>
+            </figure>
 
-          <figure>
-            <img
-              src="../../assets/weather-etl/duckdb-counts.png"
-              alt="DuckDB counts screenshot"
-              loading="lazy"
-            />
-            <figcaption class="muted">DuckDB: table counts</figcaption>
-          </figure>
-
-          <figure>
-            <img
-              src="../../assets/weather-etl/dbt-daily-summary.png"
-              alt="dbt daily summary screenshot"
-              loading="lazy"
-            />
-            <figcaption class="muted">dbt: daily_summary model</figcaption>
-          </figure>
+            <figure>
+              <img
+                src="../../assets/weather-etl/dbt-daily-summary.png"
+                alt="dbt daily summary screenshot"
+                loading="lazy"
+              />
+              <figcaption class="muted">dbt: daily_summary model</figcaption>
+            </figure>
+          </div>
+        </section>//-->
+      </div>
+      <footer class="site-footer">
+        <div class="container footer-inner">
+          <p class="muted">© <span id="year"></span> Michele Zanatta</p>
         </div>
-      </section>
-
-      <footer class="muted" style="margin: 2rem 0">
-        <p>
-          Project repository:
-          <a
-            href="https://github.com/michelezanatta/etl-pipeline-portfolio"
-            target="_blank"
-            rel="noopener noreferrer"
-            >etl-pipeline-portfolio</a
-          >
-        </p>
       </footer>
+
+      <script>
+        document.getElementById("year").textContent = String(
+          new Date().getFullYear(),
+        );
+      </script>
     </main>
 
     <!-- Mermaid renderer (optional) -->

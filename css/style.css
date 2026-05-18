@@ -13,6 +13,7 @@
   --space-3: 1rem;
   --space-4: 1.5rem;
   --space-5: 2rem;
+  --space-6: 4rem;
   --radius-1: 12px;
   --radius-2: 18px;
   --header-height: 82px;
@@ -325,4 +326,65 @@ ul {
 .footer-inner {
   display: flex;
   justify-content: center;
+}
+
+.project-hero {
+  padding: var(--space-5) 0 var(--space-4);
+}
+
+.project-hero-inner {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.project-hero-full {
+  width: 100%;
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+/* ---- Code blocks + inline code (project pages) ---- */
+
+pre {
+  margin: var(--space-4);
+  padding: var(--space-3);
+  border-radius: var(--radius-1);
+  border: 1px solid color-mix(in oklab, var(--color-border), transparent 55%);
+  background: color-mix(in oklab, var(--color-secondary), transparent 92%);
+  overflow-x: auto;
+}
+
+pre code {
+  display: block;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  white-space: pre;
+}
+
+/* Inline code (avoid affecting code inside pre) */
+:not(pre) > code {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.95em;
+  padding: 0.15rem 0.35rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in oklab, var(--color-border), transparent 60%);
+  background: color-mix(in oklab, var(--color-secondary), transparent 94%);
+}
+
+/* Mermaid container styling (works for div.mermaid or pre.mermaid) */
+.mermaid {
+  margin-top: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-1);
+  border: 1px solid color-mix(in oklab, var(--color-border), transparent 55%);
+  background: color-mix(in oklab, var(--color-background), white 45%);
+  overflow-x: auto;
 }
