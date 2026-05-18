@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather ETL Pipeline — DuckDB + Prefect + dbt</title>
+    <meta
+      name="description"
+      content="Case study: an end-to-end weather ETL/ELT pipeline using Python, DuckDB, Prefect, and dbt."
+    />
+
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <main class="container">
+      <header class="card">
+        <p class="muted">
+          <a href="../../index.html">← Back to portfolio</a>
+        </p>
+
+        <h1>Weather ETL Pipeline</h1>
+        <p class="muted">
+          End-to-end data pipeline that extracts weather data from a public API,
+          stores it in DuckDB, and builds analytics-ready models with dbt. It
+          can run on-demand or on a daily schedule via Prefect.
+        </p>
+
+        <ul class="meta">
+          <li><strong>Tech</strong>: Python · DuckDB · Prefect · dbt</li>
+          <li>
+            <strong>Focus</strong>: Data Engineering · ETL/ELT · Orchestration ·
+            SQL Transformations
+          </li>
+        </ul>
+
+        <div class="card-actions">
+          <a
+            href="https://github.com/michelezanatta/etl-pipeline-portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Source code</a
+          >
+          <a
+            href="https://github.com/michelezanatta/etl-pipeline-portfolio#weather-etl-pipeline-duckdb--prefect--dbt"
+            target="_blank"
+            rel="noopener noreferrer"
+            >README</a
+          >
+        </div>
+      </header>
+
+      <section class="card">
+        <h2>What it does</h2>
+        <ul>
+          <li><strong>Extract</strong> weather data from Open-Meteo API</li>
+          <li>
+            <strong>Transform</strong> raw data into clean, deduplicated
+            datasets (Parquet)
+          </li>
+          <li>
+            <strong>Load</strong> into DuckDB using idempotent schema creation +
+            upserts
+          </li>
+          <li>
+            <strong>Model</strong> with dbt (example: daily summary from hourly
+            past table)
+          </li>
+          <li>
+            <strong>Schedule</strong> daily runs locally with Prefect (server +
+            worker + deployment)
+          </li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Architecture</h2>
+        <p class="muted">
+          High-level flow of the pipeline, from ingestion to analytics models.
+        </p>
+
+        <!-- Mermaid diagram (renders client-side) -->
+        <div class="mermaid">
+          flowchart LR A[Open-Meteo API] -->|extract| B["raw parquet<br />rsc/data/raw_data"]
+          B -->|transform| C["processed parquet<br />rsc/data/proc_data"] C
+          -->|load/upsert| D["DuckDB<br />data/weather.duckdb"] D -->|dbt
+          models| E["daily_summary<br />(view/table)"] subgraph Orchestration
+          P[Prefect Server] --> W["Prefect Worker<br />process pool"] W -->
+          F["src.pipeline:weather_etl_flow"] end F --> B F --> C F --> D
+        </div>
+
+        <p class="muted">
+          If Mermaid doesn’t render on your site, replace the diagram with an
+          image and remove the Mermaid script at the bottom.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>How to run (local)</h2>
+        <p class="muted">
+          These commands are meant to be executed from the ETL repository.
+        </p>
+
+        <h3>Pipeline scripts</h3>
+        <pre><code>poetry install
+poetry env activate
+
+# Extract (writes raw parquet)
+python -m src.extract --local-store --output-path rsc/data/raw_data
+
+# Transform (reads raw parquet, writes processed parquet)
+python -m src.transform --input-path rsc/data/raw_data --local-store --output-path rsc/data/proc_data
+
+# Create schema (idempotent)
+python -m src.create_db --db-path data/weather.duckdb
+
+# Load (upsert into DuckDB)
+python -m src.load --db-path data/weather.duckdb --input-path rsc/data/proc_data
+
+# Run the full pipeline
+python -m src.pipeline --config config/pipeline.toml</code></pre>
+
+        <h3>Prefect scheduling (local)</h3>
+        <pre><code># Terminal A
+prefect server start
+
+# Terminal B
+export PREFECT_API_URL="http://127.0.0.1:4200/api"
+prefect work-pool create local-pool --type process
+prefect worker start --pool local-pool
+
+# Create a scheduled deployment (interactive)
+prefect deploy</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>dbt transformations</h2>
+        <p class="muted">
+          dbt reads from the DuckDB tables produced by the pipeline and builds
+          analytics models (example: <code>daily_summary</code>).
+        </p>
+
+        <pre><code># Required because the dbt profile uses an env var
+export DUCKDB_PATH="$(pwd)/data/weather.duckdb"
+
+dbt --project-dir dbt/weather_dbt debug
+dbt --project-dir dbt/weather_dbt run --select daily_summary</code></pre>
+
+        <p class="muted">Quick check via Python:</p>
+        <pre><code>python - &lt;&lt;'PY'
+import duckdb
+con = duckdb.connect("data/weather.duckdb", read_only=True)
+print(con.execute("select * from daily_summary limit 10").fetchdf())
+con.close()
+PY</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>Docker</h2>
+        <p class="muted">
+          Run it as a one-shot container, or run Prefect server+worker via
+          docker-compose.
+        </p>
+
+        <h3>One-shot pipeline run</h3>
+        <pre><code>docker build -t weather-etl .
+docker run --rm \
+  -v "$(pwd)/data:/app/data" \
+  -v "$(pwd)/rsc:/app/rsc" \
+  -v "$(pwd)/config:/app/config" \
+  -e DUCKDB_PATH=/app/data/weather.duckdb \
+  weather-etl</code></pre>
+
+        <h3>Prefect in docker-compose</h3>
+        <pre><code>docker compose up --build
+
+# one-time: create the pool
+docker compose run --rm runner prefect work-pool create local-pool --type process
+
+# run once
+docker compose run --rm runner
+
+# deploy (interactive)
+docker compose run --rm runner prefect deploy</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>Sample outputs</h2>
+        <p class="muted">
+          Add screenshots here to showcase execution and results.
+        </p>
+
+        <ul>
+          <li>Prefect UI: successful flow run (graph + logs)</li>
+          <li>DuckDB: tables + row counts</li>
+          <li>
+            dbt: model build output and <code>daily_summary</code> preview
+          </li>
+        </ul>
+
+        <!-- TODO: replace with your real images (store them in your github.io repo) -->
+        <div class="gallery">
+          <figure>
+            <img
+              src="../../assets/weather-etl/prefect-run.png"
+              alt="Prefect flow run screenshot"
+              loading="lazy"
+            />
+            <figcaption class="muted">Prefect: flow run</figcaption>
+          </figure>
+
+          <figure>
+            <img
+              src="../../assets/weather-etl/duckdb-counts.png"
+              alt="DuckDB counts screenshot"
+              loading="lazy"
+            />
+            <figcaption class="muted">DuckDB: table counts</figcaption>
+          </figure>
+
+          <figure>
+            <img
+              src="../../assets/weather-etl/dbt-daily-summary.png"
+              alt="dbt daily summary screenshot"
+              loading="lazy"
+            />
+            <figcaption class="muted">dbt: daily_summary model</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <footer class="muted" style="margin: 2rem 0">
+        <p>
+          Project repository:
+          <a
+            href="https://github.com/michelezanatta/etl-pipeline-portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+            >etl-pipeline-portfolio</a
+          >
+        </p>
+      </footer>
+    </main>
+
+    <!-- Mermaid renderer (optional) -->
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+  </body>
+</html>
