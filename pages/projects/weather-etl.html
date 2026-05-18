@@ -86,19 +86,21 @@
         </p>
 
         <!-- Mermaid diagram (renders client-side) -->
-        <div class="mermaid">
-          flowchart LR A[Open-Meteo API] -->|extract| B["raw parquet<br />rsc/data/raw_data"]
-          B -->|transform| C["processed parquet<br />rsc/data/proc_data"] C
-          -->|load/upsert| D["DuckDB<br />data/weather.duckdb"] D -->|dbt
-          models| E["daily_summary<br />(view/table)"] subgraph Orchestration
-          P[Prefect Server] --> W["Prefect Worker<br />process pool"] W -->
-          F["src.pipeline:weather_etl_flow"] end F --> B F --> C F --> D
-        </div>
+        <pre class="mermaid">
+          flowchart LR
+            A[Open-Meteo API] -->|extract| B["raw parquet\nrsc/data/raw_data"]
+            B -->|transform| C["processed parquet\nrsc/data/proc_data"]
+            C -->|load/upsert| D["DuckDB\ndata/weather.duckdb"]
+            D -->|dbt models| E["daily_summary\n(view/table)"]
 
-        <p class="muted">
-          If Mermaid doesn’t render on your site, replace the diagram with an
-          image and remove the Mermaid script at the bottom.
-        </p>
+            P[Prefect Server] --> W["Prefect Worker\nprocess pool"]
+            W --> F["src.pipeline:weather_etl_flow"]
+  
+
+            F --> B
+            F --> C
+            F --> D
+        </pre>
       </section>
 
       <section class="card">
@@ -250,7 +252,7 @@ docker compose run --rm runner prefect deploy</code></pre>
 
     <!-- Mermaid renderer (optional) -->
     <script type="module">
-      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
       mermaid.initialize({ startOnLoad: true });
     </script>
   </body>
