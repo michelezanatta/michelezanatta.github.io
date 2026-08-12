@@ -388,3 +388,205 @@ pre code {
   background: color-mix(in oklab, var(--color-background), white 45%);
   overflow-x: auto;
 }
+
+.project-page {
+  padding: 0 0 var(--space-6);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.lead {
+  max-width: 72ch;
+  font-size: 1.02rem;
+}
+
+.project-links,
+.form-actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-3);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: var(--space-4);
+  margin: var(--space-4) 0;
+}
+
+.project-panel,
+.result-card,
+.summary-card,
+.status-box {
+  background: color-mix(in oklab, var(--color-background), white 40%);
+  border: 1px solid color-mix(in oklab, var(--color-border), transparent 55%);
+  border-radius: var(--radius-2);
+}
+
+.project-panel,
+.result-card {
+  padding: var(--space-4);
+}
+
+.project-bullets {
+  margin-top: var(--space-3);
+}
+
+.upload-form {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.form-label {
+  font-weight: 600;
+}
+
+input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: var(--space-2);
+  border-radius: var(--radius-1);
+  border: 1px solid color-mix(in oklab, var(--color-border), transparent 40%);
+  background: white;
+  color: var(--color-text);
+}
+
+.status-box {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+}
+
+.status-info {
+  color: var(--color-text);
+}
+
+.status-loading {
+  background: color-mix(in oklab, #dbeafe, white 35%);
+  border-color: color-mix(in oklab, #60a5fa, transparent 45%);
+  color: #1d4ed8;
+}
+
+.status-success {
+  background: color-mix(in oklab, #dcfce7, white 20%);
+  border-color: color-mix(in oklab, #4ade80, transparent 45%);
+  color: #166534;
+}
+
+.status-error {
+  background: color-mix(in oklab, #fee2e2, white 20%);
+  border-color: color-mix(in oklab, #f87171, transparent 45%);
+  color: #991b1b;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+}
+
+.summary-card {
+  padding: var(--space-3);
+}
+
+.summary-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-text), transparent 35%);
+  margin-bottom: 0.35rem;
+}
+
+.summary-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  word-break: break-word;
+}
+
+.results-section {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.hidden {
+  display: none;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: var(--space-3);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.8rem 0.7rem;
+  border-bottom: 1px solid
+    color-mix(in oklab, var(--color-border), transparent 70%);
+  vertical-align: top;
+}
+
+th {
+  color: var(--color-secondary);
+  font-size: 0.92rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-low {
+  background: color-mix(in oklab, #dbeafe, white 15%);
+  color: #1d4ed8;
+}
+
+.badge-medium {
+  background: color-mix(in oklab, #fef3c7, white 10%);
+  color: #b45309;
+}
+
+.badge-high {
+  background: color-mix(in oklab, #fee2e2, white 10%);
+  color: #b91c1c;
+}
+
+.badge-critical {
+  background: color-mix(in oklab, #e5e7eb, white 10%);
+  color: #111827;
+}
+
+@media (max-width: 960px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+}

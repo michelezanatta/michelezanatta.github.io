@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DQ EDA Copilot | Michele Zanatta</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+  </head>
+  <body>
+    <main class="project-page">
+      <section class="project-hero container">
+        <p class="eyebrow">Portfolio Project</p>
+        <h1>DQ EDA Copilot</h1>
+        <p class="lead">
+          A web application that analyzes uploaded CSV or Parquet datasets and
+          returns a deterministic data-quality profile, ranked findings, a
+          heuristic quality score, a concise interpretation, and a downloadable
+          HTML report.
+        </p>
+
+        <div class="project-links">
+          <a
+            class="button"
+            href="https://github.com/YOUR_GITHUB_USERNAME/dq-eda-copilot"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Source
+          </a>
+          <a class="button button-secondary" href="../../index.html">
+            Back to Portfolio
+          </a>
+        </div>
+      </section>
+
+      <section class="container">
+        <div class="project-grid">
+          <div class="project-panel">
+            <h2>About the project</h2>
+            <p>
+              This project focuses on deterministic exploratory data-quality
+              analysis for tabular datasets. It profiles the uploaded file,
+              detects issues such as missingness, duplicates, constant columns,
+              outliers, and correlations, computes a heuristic quality score,
+              and produces a concise natural-language summary.
+            </p>
+
+            <ul class="project-bullets">
+              <li>
+                <strong>Backend:</strong> FastAPI, pandas, pyarrow, Jinja2
+              </li>
+              <li>
+                <strong>Frontend:</strong> Static GitHub Pages page with
+                JavaScript integration
+              </li>
+              <li>
+                <strong>LLM mode:</strong> local OSS model or deterministic
+                fallback
+              </li>
+              <li>
+                <strong>Output:</strong> JSON analysis + downloadable HTML
+                report
+              </li>
+            </ul>
+          </div>
+
+          <div class="project-panel">
+            <h2>Try the demo</h2>
+            <p class="muted">
+              Upload a CSV or Parquet file to run the analysis through the
+              hosted backend API.
+            </p>
+
+            <form id="dq-upload-form" class="upload-form">
+              <label for="datasetFile" class="form-label">Dataset file</label>
+              <input
+                id="datasetFile"
+                name="file"
+                type="file"
+                accept=".csv,.parquet"
+                required
+              />
+
+              <div class="form-actions">
+                <button type="submit" class="btn">Analyze dataset</button>
+                <button
+                  type="button"
+                  id="downloadReportBtn"
+                  class="btn btn-secondary"
+                  disabled
+                >
+                  Download HTML report
+                </button>
+              </div>
+            </form>
+
+            <div id="apiStatus" class="status-box muted">
+              Waiting for file upload.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container">
+        <div id="resultsSection" class="results-section hidden">
+          <h2>Analysis Results</h2>
+
+          <div class="summary-grid" id="summaryGrid"></div>
+
+          <div class="result-card">
+            <h3>LLM Interpretation</h3>
+            <div id="llmReportContent"></div>
+          </div>
+
+          <div class="result-card">
+            <h3>Top Findings</h3>
+            <div class="table-wrapper">
+              <table id="findingsTable">
+                <thead>
+                  <tr>
+                    <th>Severity</th>
+                    <th>Type</th>
+                    <th>Column</th>
+                    <th>Title</th>
+                    <th>Message</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="result-card">
+            <h3>Column Profiles</h3>
+            <div class="table-wrapper">
+              <table id="profilesTable">
+                <thead>
+                  <tr>
+                    <th>Column</th>
+                    <th>Profile Type</th>
+                    <th>Logical Type</th>
+                    <th>Null Ratio</th>
+                    <th>Unique Ratio</th>
+                    <th>Constant</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      window.DQ_API_BASE_URL = "https://dq-eda-copilot-api.onrender.com";
+    </script>
+    <script src="../../js/dq-eda-copilot.js"></script>
+  </body>
+</html>
