@@ -45,6 +45,21 @@
               and produces a concise natural-language summary.
             </p>
 
+            <div class="project-mode-note">
+              <h3>Demo modes</h3>
+              <p>
+                The public web demo runs with a deterministic interpretation
+                fallback so the application can stay free to host and
+                consistently available online.
+              </p>
+              <p>
+                In local developer mode, the backend can be configured to call a
+                locally hosted open-source model via Ollama exactly once per
+                analysis, enabling a fully local LLM-assisted interpretation
+                workflow.
+              </p>
+            </div>
+
             <ul class="project-bullets">
               <li>
                 <strong>Backend:</strong> FastAPI, pandas, pyarrow, Jinja2
