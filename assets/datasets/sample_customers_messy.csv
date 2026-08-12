@@ -1,0 +1,11 @@
+customer_id,age,country,is_active,signup_date,plan_type,monthly_spend,last_login_days,notes
+C001,29,IT,yes,2024-01-10,basic,19.99,3,Normal customer
+C002,,DE,yes,2024-01-12,premium,49.99,1,Missing age
+C003,41,FR,no,,basic,19.99,15,Missing signup date
+C004,32,,yes,2024-01-18,standard,29.99,4,Missing country
+C005,27,IT,yes,2024-01-21,basic,19.99,2,Repeated low-spend profile
+C005,27,IT,yes,2024-01-21,basic,19.99,2,Repeated low-spend profile
+C006,45,NL,no,2024-01-23,premium,9999.99,20,Possible spend outlier
+C007,38,BE,maybe,2024-01-25,standard,34.99,,Unexpected boolean-like value
+C008,31,DE,yes,not_a_date,basic,24.99,5,Invalid date value
+C009,31,DE,yes,2024-01-30,basic,0,0,"Very long free text note describing an unusual customer case with manual override and a review workflow pending."

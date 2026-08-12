@@ -1,0 +1,9 @@
+order_id,customer_id,order_date,ship_date,country,channel,payment_method,currency,order_value,discount_value,item_count,is_priority,is_returning_customer,status,warehouse_code,sales_rep
+O1001,C001,2024-02-01,2024-02-03,IT,web,card,EUR,120.50,10.00,3,yes,yes,shipped,W1,SR01
+O1002,C002,2024-02-01,2024-02-04,DE,store,paypal,EUR,89.99,0.00,2,no,yes,shipped,W2,SR02
+O1003,C003,2024-02-02,2024-02-05,FR,web,card,EUR,45.00,5.00,1,no,no,processing,W1,SR03
+O1004,C004,2024-02-02,2024-02-06,ES,partner,bank,EUR,230.00,20.00,5,yes,no,shipped,W3,SR01
+O1005,C005,2024-02-03,2024-02-07,IT,web,card,EUR,15.99,0.00,1,no,yes,cancelled,W1,SR04
+O1006,C006,2024-02-03,2024-02-08,NL,store,cash,EUR,310.75,15.00,6,yes,no,shipped,W2,SR02
+O1007,C007,2024-02-04,2024-02-08,BE,web,card,EUR,67.40,0.00,2,no,yes,processing,W1,SR05
+O1008,C008,2024-02-05,2024-02-09,DE,partner,paypal,EUR,540.20,50.00,8,yes,yes,shipped,W3,SR03

@@ -1,0 +1,9 @@
+customer_id,age,country,is_active,signup_date,plan_type,monthly_spend,last_login_days
+C001,29,IT,yes,2024-01-10,basic,19.99,3
+C002,35,DE,yes,2024-01-12,premium,49.99,1
+C003,41,FR,no,2024-01-15,basic,19.99,15
+C004,32,ES,yes,2024-01-18,standard,29.99,4
+C005,27,IT,yes,2024-01-21,basic,19.99,2
+C006,45,NL,no,2024-01-23,premium,59.99,20
+C007,38,BE,yes,2024-01-25,standard,34.99,6
+C008,31,DE,yes,2024-01-30,basic,24.99,5

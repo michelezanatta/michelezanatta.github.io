@@ -590,3 +590,15 @@ th {
     grid-template-columns: 1fr;
   }
 }
+
+.sample-datasets {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid
+    color-mix(in oklab, var(--color-border), transparent 65%);
+}
+
+.sample-datasets h3 {
+  margin-bottom: var(--space-2);
+  color: var(--color-secondary);
+}
