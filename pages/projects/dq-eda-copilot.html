@@ -218,6 +218,18 @@
           </div>
         </div>
       </section>
+
+      <footer class="site-footer">
+        <div class="container footer-inner">
+          <p class="muted">© <span id="year"></span> Michele Zanatta</p>
+        </div>
+      </footer>
+
+      <script>
+        document.getElementById("year").textContent = String(
+          new Date().getFullYear(),
+        );
+      </script>
     </main>
 
     <script>
