@@ -10,9 +10,9 @@
     />
 
     <link rel="stylesheet" href="../../css/style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />-->
+    <link 
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap"
       rel="stylesheet"
     />
@@ -28,6 +28,22 @@
           stores it in DuckDB, and builds analytics-ready models with dbt. It
           can run on-demand or on a daily schedule via Prefect.
         </p>
+        <ul class="meta">
+          <li>
+            <strong>Tech</strong>:
+            <span class="tag">Python</span>
+            <span class="tag">DuckDB</span>
+            <span class="tag">Prefect</span>
+            <span class="tag">dbt</span>
+          </li>
+
+          <li style="padding-top: 10px">
+            <strong>Focus</strong>:
+            <span class="tag">Data Engineering</span>
+            <span class="tag">ETL/ELT</span>
+            <span class="tag">Orchestration</span>
+          </li>
+        </ul>
 
         <div class="project-links">
           <a
@@ -43,33 +59,9 @@
           </a>
         </div>
       </section>
-    
 
-        <ul class="meta">
-          <li>
-            <strong>Tech</strong>:
-            <span class="tag">Python</span>
-            <span class="tag">DuckDB</span>
-            <span class="tag">Prefect</span>
-            <span class="tag">dbt</span>
-          </li>
-
-          <li style="padding-top: 10px">
-            <strong>Focus</strong>:
-            <span class="tag">Data Engineering</span>
-            <span class="tag">ETL/ELT</span>
-            <span class="tag">Orchestration</span>
-            <span class="tag">Data Engineering</span>
-          </li>
-        </ul>
-
-        
-      </div>
-    </header>
-
-    <!-- <main id="content" class="container"> -->
-      <div class="stack">
-        <section class="panel">
+      <section class="container">
+        <div class="project-panel"> 
           <h2>What it does</h2>
           <ul>
             <li><strong>Extract</strong> weather data from Open-Meteo API</li>
@@ -90,8 +82,10 @@
               + worker + deployment)
             </li>
           </ul>
-        </section>
-        <section class="panel">
+        </div>
+      </section>
+        <section class="container">
+        <div class="project-panel"> 
           <h2>Architecture</h2>
           <p class="muted">
             High-level flow of the pipeline, from ingestion to analytics models.
@@ -114,8 +108,10 @@
             F --> D
         </pre
           >
+          </div>
         </section>
-        <section class="panel">
+        <section class="container">
+     <div class="project-panel"> 
           <h2>How to run (local)</h2>
           <p class="muted" style="margin-top: 0.25rem">
             These commands are meant to be executed from the ETL repository.
@@ -151,8 +147,10 @@ prefect worker start --pool local-pool
 
 # Create a scheduled deployment (interactive)
 prefect deploy</code></pre>
+     </div>
         </section>
-        <section class="panel">
+        <section class="container">
+     <div class="project-panel"> 
           <h2>dbt transformations</h2>
           <p class="muted" style="margin-top: var(--space-2)">
             dbt reads from the DuckDB tables produced by the pipeline and builds
@@ -172,9 +170,11 @@ con = duckdb.connect("data/weather.duckdb", read_only=True)
 print(con.execute("select * from daily_summary limit 10").fetchdf())
 con.close()
 PY</code></pre>
+     </div>
         </section>
 
-        <section class="panel">
+        <section class="container">
+     <div class="project-panel"> 
           <h2>Docker</h2>
           <p class="muted" style="margin-top: var(--space-2)">
             Run it as a one-shot container, or run Prefect server+worker via
@@ -201,6 +201,7 @@ docker compose run --rm runner
 
 # deploy (interactive)
 docker compose run --rm runner prefect deploy</code></pre>
+     </div>
         </section>
         <!--<section class="panel">
           <h2>Sample outputs</h2>

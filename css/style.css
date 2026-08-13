@@ -415,6 +415,11 @@ pre code {
   margin-top: var(--space-3);
 }
 
+.project-hero .meta {
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
 .project-grid {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
