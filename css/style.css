@@ -271,6 +271,7 @@ ul {
   display: grid;
   gap: var(--space-3);
   padding-bottom: var(--space-5);
+  margin-top: 2rem;
 }
 
 .row {
@@ -614,4 +615,62 @@ th {
 
 .project-mode-note h3 {
   color: var(--color-secondary);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 480px;
+  margin-top: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted, #888);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.form-group input,
+.form-group textarea {
+  font: inherit;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius, 6px);
+  border: 1px solid var(--border, #333);
+  background: var(--color-background);
+  color: var(--color-text, #eee);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-muted, #666);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent, #4f9eff);
+  box-shadow: 0 0 0 3px var(--accent-soft, rgba(79, 158, 255, 0.15));
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.contact-form .button {
+  align-self: flex-start;
+  cursor: pointer;
+  border: none;
 }

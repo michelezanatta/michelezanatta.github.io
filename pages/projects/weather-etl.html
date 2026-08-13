@@ -19,17 +19,31 @@
   </head>
 
   <body>
-    <header class="project-hero">
-      <div class="panel project-hero-inner project-hero-full">
-        <p class="muted">
-          <a href="../../index.html">← Back to portfolio</a>
-        </p>
+    <main class="project-page">
+      <section class="project-hero container">
+        <p class="eyebrow">Portfolio Project</p>
         <h1>Weather ETL Pipeline</h1>
-        <p class="muted">
+        <p class="lead">
           End-to-end data pipeline that extracts weather data from a public API,
           stores it in DuckDB, and builds analytics-ready models with dbt. It
           can run on-demand or on a daily schedule via Prefect.
         </p>
+
+        <div class="project-links">
+          <a
+            class="button"
+            href="https://github.com/michelezanatta/etl-pipeline-portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Source
+          </a>
+          <a class="button button-secondary" href="../../index.html">
+            Back to Portfolio
+          </a>
+        </div>
+      </section>
+    
 
         <ul class="meta">
           <li>
@@ -49,29 +63,11 @@
           </li>
         </ul>
 
-        <div
-          class="card-actions"
-          style="display: flexbox; justify-content: center"
-        >
-          <a
-            class="button"
-            href="https://github.com/michelezanatta/etl-pipeline-portfolio"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Source code</a
-          >
-          <a
-            class="button"
-            href="https://github.com/michelezanatta/etl-pipeline-portfolio#weather-etl-pipeline-duckdb--prefect--dbt"
-            target="_blank"
-            rel="noopener noreferrer"
-            >README</a
-          >
-        </div>
+        
       </div>
     </header>
 
-    <main id="content" class="container">
+    <!-- <main id="content" class="container"> -->
       <div class="stack">
         <section class="panel">
           <h2>What it does</h2>

@@ -98,6 +98,33 @@
 
         <div class="grid cards">
           <article class="card">
+            <h3>DQ EDA Copilot</h3>
+            <p class="muted">
+              Upload a CSV or Parquet dataset and receive a deterministic
+              data-quality profile, ranked findings, a heuristic quality score,
+              LLM interpretation, and a downloadable HTML report.
+            </p>
+            <ul class="meta">
+              <li>
+                <strong>Tech</strong>: FastAPI | pandas | Jinja2 | JavaScript
+              </li>
+              <li>
+                <strong>Focus</strong>: Data quality | EDA | LLM-assisted
+                interpretation
+              </li>
+            </ul>
+            <div class="card-actions">
+              <a href="pages/projects/dq-eda-copilot.html">Live</a>
+              <a
+                href="https://github.com/michelezanatta/dq-eda-copilot"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Source
+              </a>
+            </div>
+          </article>
+          <article class="card">
             <h3>Weather ETL pipeline</h3>
             <p class="muted">
               End-to-end data pipeline that extracts real-time weather data from
@@ -118,30 +145,7 @@
               >
             </div>
           </article>
-
-          <article class="card">
-            <h3>DQ EDA Copilot</h3>
-            <p class="muted">
-              Upload a CSV or Parquet dataset and receive a deterministic
-              data-quality profile, ranked findings, a heuristic quality score,
-              LLM interpretation, and a downloadable HTML report.
-            </p>
-            <ul class="meta">
-              <li>Tech: FastAPI, pandas, Jinja2, JavaScript</li>
-              <li>Focus: Data quality, EDA, LLM-assisted interpretation</li>
-            </ul>
-            <div class="card-actions">
-              <a href="pages/projects/dq-eda-copilot.html">Live</a>
-              <a
-                href="https://github.com/michelezanatta/dq-eda-copilot"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Source
-              </a>
-            </div>
-          </article>
-
+          <!-- 
           <article class="card">
             <h3>Project Three</h3>
             <p class="muted">One sentence summary.</p>
@@ -153,7 +157,7 @@
               <a href="#">Live</a>
               <a href="#">Source</a>
             </div>
-          </article>
+          </article> -->
         </div>
       </section>
 
@@ -190,6 +194,12 @@
                 <strong>Datasheet Extractor:</strong> Assisted in developing an
                 automated system for extracting and structuring data from PDFs
                 into tables, utilizing AI tools like Claude from AWS.
+              </li>
+              <li>
+                <strong>Data Lineage Inference:</strong> Assisted in developing
+                an automated system for infering the data lineage of a database
+                given the DDL and query history. Implemented a RAG for technical
+                users to interrogate the lineage.
               </li>
             </ul>
           </article>
@@ -236,6 +246,9 @@
             <span class="tag">TypeScript</span>
             <span class="tag">React</span>
             <span class="tag">Node.js</span>
+            <span class="tag">Supabase</span>
+            <span class="tag">AWS</span>
+            <span class="tag">Render</span>
           </div>
         </div>
       </section>
@@ -245,25 +258,50 @@
       <section id="contact" class="section">
         <header class="section-header">
           <h2>Contact</h2>
-          <p>Links and ways to reach you.</p>
-        </header>
+          <form
+            action="https://formspree.io/f/mljrnvgz"
+            method="POST"
+            class="contact-form"
+          >
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                required
+              ></textarea>
+            </div>
+
+            <!-- honeypot anti-spam, invisibile agli utenti reali -->
+            <input type="text" name="_gotcha" style="display: none" />
+
+            <button type="submit" class="button">Submit</button>
+          </form>
+        </section>
 
         <div class="panel">
           <ul class="contact-list">
             <li>
-              <strong>Email:</strong>
-              <a href="mailto:your@email.com">your@email.com</a>
-            </li>
-            <li>
               <strong>GitHub:</strong>
-              <a href="https://github.com/your-handle"
-                >github.com/your-handle</a
+              <a href="https://github.com/michelezanatta"
+                >github.com/michelezanatta</a
               >
             </li>
             <li>
               <strong>LinkedIn:</strong>
-              <a href="https://www.linkedin.com/in/your-handle/"
-                >linkedin.com/in/your-handle</a
+              <a href="https://www.linkedin.com/in/michelezanatta/"
+                >linkedin.com/in/michelezanatta</a
               >
             </li>
           </ul>
