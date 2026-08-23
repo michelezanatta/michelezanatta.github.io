@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rugby Stats Portal</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <div>
+          <div class="brand-title">Michele Zanatta</div>
+        </div>
+        <nav class="site-nav" aria-label="Main navigation">
+          <a href="../../index.html">Home</a>
+          <a href="../../index.html#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="project-page">
+      <section class="project-hero">
+        <div class="container project-hero-inner">
+          <h1 class="hero-title">Rugby Stats Portal</h1>
+          <p class="lead">A private portal for my rugby team.</p>
+        </div>
+      </section>
+
+      <section class="section" id="access">
+        <div class="container">
+          <div class="project-grid">
+            <!-- Access panel -->
+            <div class="project-panel">
+              <div class="section-header">
+                <h2>Log in</h2>
+                <p class="muted">
+                  Enter your team's key to unlock the dashboard and match
+                  reports.
+                </p>
+              </div>
+
+              <form class="upload-form" id="accessForm" autocomplete="off">
+                <div class="form-group">
+                  <label for="teamKey">Team key</label>
+                  <input
+                    type="password"
+                    id="teamKey"
+                    name="teamKey"
+                    placeholder="Enter your key"
+                    required
+                  />
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="button" id="accessSubmit">
+                    Unlock
+                  </button>
+                  <button
+                    type="button"
+                    class="button button-secondary hidden"
+                    id="logoutButton"
+                  >
+                    Switch team
+                  </button>
+                </div>
+              </form>
+
+              <div
+                class="status-box hidden"
+                id="statusBox"
+                role="status"
+                aria-live="polite"
+              ></div>
+            </div>
+
+            <!-- Results panel -->
+            <div class="result-card">
+              <div class="section-header">
+                <h2 id="resultsTitle">Your content</h2>
+                <p class="muted" id="resultsSubtitle">
+                  Appears here after logging in.
+                </p>
+              </div>
+
+              <div id="emptyState" class="muted">
+                Enter your team's key to see the dashboard and match reports.
+              </div>
+
+              <div id="dashboardSlot"></div>
+
+              <div class="stack" id="matchesList"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p class="muted">&copy; <span id="year"></span> — Rugby Stats Portal</p>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        "use strict";
+
+        const WORKER_URL =
+          "https://rugby-access-api.michelezanatta07.workers.dev";
+
+        const STORAGE_KEY_TOKEN = "rugbyStats:token";
+        const STORAGE_KEY_TEAM = "rugbyStats:team";
+
+        const form = document.getElementById("accessForm");
+        const keyInput = document.getElementById("teamKey");
+        const submitButton = document.getElementById("accessSubmit");
+        const logoutButton = document.getElementById("logoutButton");
+        const statusBox = document.getElementById("statusBox");
+        const emptyState = document.getElementById("emptyState");
+        const dashboardSlot = document.getElementById("dashboardSlot");
+        const matchesList = document.getElementById("matchesList");
+        const resultsTitle = document.getElementById("resultsTitle");
+        const resultsSubtitle = document.getElementById("resultsSubtitle");
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        function setStatus(message, type) {
+          statusBox.textContent = message;
+          statusBox.className = "status-box status-" + type;
+        }
+
+        function clearStatus() {
+          statusBox.textContent = "";
+          statusBox.className = "status-box hidden";
+        }
+
+        function setLoading(isLoading) {
+          submitButton.disabled = isLoading;
+          submitButton.textContent = isLoading ? "Checking…" : "Unlock";
+        }
+
+        function showLoggedOutState() {
+          form.classList.remove("hidden");
+          logoutButton.classList.add("hidden");
+          emptyState.classList.remove("hidden");
+          dashboardSlot.innerHTML = "";
+          matchesList.innerHTML = "";
+          resultsTitle.textContent = "Your content";
+          resultsSubtitle.textContent = "Appears here after logging in.";
+        }
+
+        function showLoggedInState(teamName) {
+          form.classList.add("hidden");
+          logoutButton.classList.remove("hidden");
+          emptyState.classList.add("hidden");
+          resultsTitle.textContent = teamName || "Your content";
+          resultsSubtitle.textContent =
+            "Dashboard and match reports available for download.";
+        }
+
+        function downloadUrl(fileKey, token) {
+          const url = new URL(WORKER_URL + "/download");
+          url.searchParams.set("key", fileKey);
+          url.searchParams.set("token", token);
+          return url.toString();
+        }
+
+        function renderDashboard(dashboard, token) {
+          dashboardSlot.innerHTML = "";
+          if (!dashboard) return;
+
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML =
+            "<h3>Season dashboard</h3>" + '<div class="card-actions"></div>';
+
+          const link = document.createElement("a");
+          link.className = "button";
+          link.href = downloadUrl(dashboard.key, token);
+          link.textContent = "Open dashboard";
+          card.querySelector(".card-actions").appendChild(link);
+
+          dashboardSlot.appendChild(card);
+        }
+
+        function renderMatches(matches, token) {
+          matchesList.innerHTML = "";
+
+          if (!matches || matches.length === 0) {
+            const p = document.createElement("p");
+            p.className = "muted";
+            p.textContent = "No match reports uploaded yet for this team.";
+            matchesList.appendChild(p);
+            return;
+          }
+
+          matches.forEach(function (match) {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const title = document.createElement("h3");
+            title.textContent = match.label;
+            card.appendChild(title);
+
+            const actions = document.createElement("div");
+            actions.className = "card-actions";
+
+            match.files.forEach(function (file) {
+              const link = document.createElement("a");
+              link.className = "button button-secondary";
+              link.href = downloadUrl(file.key, token);
+              link.textContent =
+                file.type === "dashboard" ? "Report" : "Stats CSV";
+              actions.appendChild(link);
+            });
+
+            card.appendChild(actions);
+            matchesList.appendChild(card);
+          });
+        }
+
+        async function loadFiles(token, teamName) {
+          setStatus("Loading content…", "loading");
+
+          try {
+            const response = await fetch(WORKER_URL + "/files", {
+              headers: { Authorization: "Bearer " + token },
+            });
+
+            if (response.status === 401) {
+              // Session expired or invalid: go back to the login form.
+              clearSession();
+              showLoggedOutState();
+              setStatus(
+                "Your session has expired. Please enter your key again.",
+                "error",
+              );
+              return;
+            }
+
+            if (!response.ok) {
+              setStatus(
+                "Couldn't load your content. Please try again later.",
+                "error",
+              );
+              return;
+            }
+
+            const data = await response.json();
+            showLoggedInState(teamName);
+            renderDashboard(data.dashboard, token);
+            renderMatches(data.matches, token);
+            clearStatus();
+          } catch (err) {
+            setStatus(
+              "Connection error. Check your network and try again.",
+              "error",
+            );
+          }
+        }
+
+        function saveSession(token, team) {
+          sessionStorage.setItem(STORAGE_KEY_TOKEN, token);
+          sessionStorage.setItem(STORAGE_KEY_TEAM, JSON.stringify(team));
+        }
+
+        function clearSession() {
+          sessionStorage.removeItem(STORAGE_KEY_TOKEN);
+          sessionStorage.removeItem(STORAGE_KEY_TEAM);
+        }
+
+        form.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          clearStatus();
+          setLoading(true);
+
+          try {
+            const response = await fetch(WORKER_URL + "/access", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ key: keyInput.value }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+              setStatus("Invalid key. Please check and try again.", "error");
+              setLoading(false);
+              return;
+            }
+
+            saveSession(data.token, data.team);
+            keyInput.value = "";
+            setLoading(false);
+            await loadFiles(data.token, data.team && data.team.name);
+          } catch (err) {
+            setStatus(
+              "Connection error. Check your network and try again.",
+              "error",
+            );
+            setLoading(false);
+          }
+        });
+
+        logoutButton.addEventListener("click", function () {
+          clearSession();
+          showLoggedOutState();
+          clearStatus();
+        });
+
+        // If a session is already saved (same tab), try to restore it.
+        (function init() {
+          const token = sessionStorage.getItem(STORAGE_KEY_TOKEN);
+          const teamRaw = sessionStorage.getItem(STORAGE_KEY_TEAM);
+
+          if (token) {
+            const team = teamRaw ? JSON.parse(teamRaw) : null;
+            loadFiles(token, team && team.name);
+          } else {
+            showLoggedOutState();
+          }
+        })();
+      })();
+    </script>
+  </body>
+</html>
